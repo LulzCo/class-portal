@@ -15,7 +15,8 @@ class UserDaoTest {
         Long id = 1l;
         String name = "seongwon";
         String password = "1234";
-        UserDao userDao = new JejuUserDao();
+        ConnectionMaker connectionMaker = new JejuConnectionMaker();
+        UserDao userDao = new UserDao(connectionMaker);
         User user = userDao.findById(id);
 
         assertThat(user.getId(), is(id));
@@ -31,7 +32,8 @@ class UserDaoTest {
 
         user.setName(name);
         user.setPassword(password);
-        UserDao userDao = new JejuUserDao();
+        ConnectionMaker connectionMaker = new JejuConnectionMaker();
+        UserDao userDao = new UserDao(connectionMaker);
         userDao.insert(user);
         assertThat(user.getId(), greaterThan(1l));
 
@@ -47,7 +49,8 @@ class UserDaoTest {
         Long id = 1l;
         String name = "양성원";
         String password = "1234";
-        UserDao userDao = new HallaUserDao();
+        ConnectionMaker connectionMaker = new HallaConnectionMaker();
+        UserDao userDao = new UserDao(connectionMaker);
         User user = userDao.findById(id);
 
         assertThat(user.getId(), is(id));
@@ -63,7 +66,8 @@ class UserDaoTest {
 
         user.setName(name);
         user.setPassword(password);
-        UserDao userDao = new HallaUserDao();
+        ConnectionMaker connectionMaker = new HallaConnectionMaker();
+        UserDao userDao = new UserDao(connectionMaker);
         userDao.insert(user);
         assertThat(user.getId(), greaterThan(1l));
 
