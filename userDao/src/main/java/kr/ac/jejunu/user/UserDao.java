@@ -51,7 +51,7 @@ public class UserDao {
         return user;
     }
 
-    public void insert(User user) throws ClassNotFoundException, SQLException {
+    public void insert(User user) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
