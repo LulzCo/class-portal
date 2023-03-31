@@ -5,10 +5,14 @@ plugins {
 
 group = 'kr.ac.jejunu.user'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
+}
+
+ext {
+    springVersion = '6.0.7'
 }
 
 test {
@@ -16,6 +20,8 @@ test {
 }
 
 dependencies {
+    implementation "org.springframework:spring-core:${springVersion}"
+    implementation "org.springframework:spring-context:${springVersion}"
     runtimeOnly 'mysql:mysql-connector-java:8.0.32'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation "org.junit.jupiter:junit-jupiter-engine:5.9.2"
