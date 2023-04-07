@@ -1,5 +1,6 @@
 package kr.ac.jejunu.user;
 
+import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -44,7 +45,6 @@ class UserDaoTest {
         User user = new User();
         String name = "양성원";
         String password = "1234";
-
         user.setName(name);
         user.setPassword(password);
 //        ConnectionMaker connectionMaker = new JejuConnectionMaker();
@@ -59,6 +59,46 @@ class UserDaoTest {
         assertThat(insertedUser.getName(), is(name));
         assertThat(insertedUser.getPassword(), is(password));
 
+    }
+
+    @Test
+    public void update() throws SQLException {
+        User user = new User();
+        String name = "양성원";
+        String password = "1234";
+
+        user.setName(name);
+        user.setPassword(password);
+        userDao.insert(user);
+        String updatedName = "updated양성원";
+        user.setName(updatedName);
+        String updatedPassword = "4321";
+        user.setPassword(updatedPassword);
+        userDao.update(user);
+
+        User updatedUser = userDao.findById(user.getId());
+        assertThat(updatedUser.getName(), is(updatedName));
+        assertThat(updatedUser.getPassword(), is(updatedPassword));
+    }
+
+    @Test
+    public void delete() throws SQLException {
+        User user = insertedUser();
+        userDao.delete(user.getId());
+
+        User deletedUser = userDao.findById(user.getId());
+
+        assertThat(deletedUser, IsNull.nullValue());
+    }
+
+    private User insertedUser() throws SQLException {
+        String name = "양성원";
+        String password = "12345";
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        userDao.insert(user);
+        return user;
     }
 
 //    @Test
@@ -94,11 +134,5 @@ class UserDaoTest {
 //        assertThat(insertedUser.getPassword(), is(password));
 //
 //    }
-
-
-
-
-
-
 
 }
