@@ -5,6 +5,7 @@
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="package" />
+    <option name="PASS_PARENT_ENVS" value="false" />
     <envs>
       <env name="DB_CLASSNAME" value="com.mysql.cj.jdbc.Driver" />
       <env name="DB_PASSWORD" value="1234" />

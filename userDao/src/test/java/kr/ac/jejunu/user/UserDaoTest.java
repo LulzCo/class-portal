@@ -25,7 +25,7 @@ class UserDaoTest {
 
     @Test
     public void get() throws SQLException, ClassNotFoundException {
-        Long id = 1l;
+        Long id = 41l;      // -> 오류 수정하며 테이블 데이터 리셋 후 작업해서 수정하게 되었음
         String name = "seongwon";
         String password = "1234";
 //        ConnectionMaker connectionMaker = new JejuConnectionMaker();
