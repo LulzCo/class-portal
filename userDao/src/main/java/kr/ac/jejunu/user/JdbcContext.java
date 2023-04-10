@@ -22,9 +22,6 @@ public class JdbcContext {
         try {
             connection = dataSource.getConnection();
             preparedStatement = statementStrategy.makeStatement(connection);
-//            preparedStatement = connection.prepareStatement(
-//                    "select id, name, password from userinfo where id = ?");
-//            preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 user = new User();
@@ -89,11 +86,6 @@ public class JdbcContext {
         try {
             connection = dataSource.getConnection();
             preparedStatement = statementStrategy.makeStatement(connection);
-            //            preparedStatement = connection.prepareStatement(
-//                    "update userinfo set name = ?, password = ? where id = ?");
-//            preparedStatement.setString(1, user.getName());
-//            preparedStatement.setString(2, user.getPassword());
-//            preparedStatement.setLong(3, user.getId());
             preparedStatement.executeUpdate();
         } finally {
             try {

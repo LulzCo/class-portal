@@ -28,10 +28,6 @@ class UserDaoTest {
         Long id = 41l;      // -> 오류 수정하며 테이블 데이터 리셋 후 작업해서 수정하게 되었음
         String name = "seongwon";
         String password = "1234";
-//        ConnectionMaker connectionMaker = new JejuConnectionMaker();
-//        UserDao userDao = new UserDao(connectionMaker);
-//        DaoFactory daoFactory = new DaoFactory();
-//        UserDao userDao = daoFactory.getUserDao();
 
         User user = userDao.findById(id);
 
@@ -45,13 +41,11 @@ class UserDaoTest {
         User user = new User();
         String name = "양성원";
         String password = "1234";
+
         user.setName(name);
         user.setPassword(password);
-//        ConnectionMaker connectionMaker = new JejuConnectionMaker();
-//        UserDao userDao = new UserDao(connectionMaker);
-//        DaoFactory daoFactory = new DaoFactory();
-//        UserDao userDao = daoFactory.getUserDao();
         userDao.insert(user);
+
         assertThat(user.getId(), greaterThan(1l));
 
         User insertedUser = userDao.findById(user.getId());
@@ -100,39 +94,4 @@ class UserDaoTest {
         userDao.insert(user);
         return user;
     }
-
-//    @Test
-//    public void getForHalla() throws SQLException, ClassNotFoundException {
-//        Long id = 1l;
-//        String name = "양성원";
-//        String password = "1234";
-//        ConnectionMaker connectionMaker = new HallaConnectionMaker();
-//        UserDao userDao = new UserDao(connectionMaker);
-//        User user = userDao.findById(id);
-//
-//        assertThat(user.getId(), is(id));
-//        assertThat(user.getName(), is(name));
-//        assertThat(user.getPassword(), is(password));
-//    }
-//
-//    @Test
-//    public void insertForHalla() throws SQLException, ClassNotFoundException {
-//        User user = new User();
-//        String name = "양성원";
-//        String password = "1234";
-//
-//        user.setName(name);
-//        user.setPassword(password);
-//        ConnectionMaker connectionMaker = new HallaConnectionMaker();
-//        UserDao userDao = new UserDao(connectionMaker);
-//        userDao.insert(user);
-//        assertThat(user.getId(), greaterThan(1l));
-//
-//        User insertedUser = userDao.findById(user.getId());
-//        assertThat(insertedUser.getId(), is(user.getId()));
-//        assertThat(insertedUser.getName(), is(name));
-//        assertThat(insertedUser.getPassword(), is(password));
-//
-//    }
-
 }
