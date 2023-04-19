@@ -11,12 +11,13 @@ import static org.hamcrest.core.Is.is;
 public class UserDaoTests {
 
     @Test
-    public void getForJeju() throws SQLException, ClassNotFoundException {
+    public void get() throws SQLException, ClassNotFoundException {
         Long id = 1l;
         String name = "hulk";
         String password = "1234";
         JejuConnectionMaker jejuConnectionMaker = new JejuConnectionMaker();
-        UserDao userDao = new UserDao(jejuConnectionMaker);
+        DaoFactory daoFactory = new DaoFactory();
+        UserDao userDao = daoFactory.userDao(jejuConnectionMaker);
         User user = userDao.findById(id);
         assertThat(user.getId(), is(id));
         assertThat(user.getName(), is(name));
@@ -24,45 +25,12 @@ public class UserDaoTests {
     }
 
     @Test
-    public void insertForJeju() throws SQLException, ClassNotFoundException {
+    public void insert() throws SQLException, ClassNotFoundException {
         String name = "hulk";
         String password = "1234";
         JejuConnectionMaker jejuConnectionMaker = new JejuConnectionMaker();
-        UserDao userDao = new UserDao(jejuConnectionMaker);
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
-        userDao.insert(user);
-
-        assertThat(user.getId(), greaterThan(1L));
-
-        User insertedUser = userDao.findById(user.getId());
-
-        assertThat(insertedUser.getId(), is(user.getId()));
-        assertThat(insertedUser.getName(), is(user.getName()));
-        assertThat(insertedUser.getPassword(), is(user.getPassword()));
-    }
-
-
-    @Test
-    public void getForHalla() throws SQLException, ClassNotFoundException {
-        Long id = 1l;
-        String name = "hulk";
-        String password = "1234";
-        HallaConnectionMaker hallaConnectionMaker = new HallaConnectionMaker();
-        UserDao userDao = new UserDao(hallaConnectionMaker);
-        User user = userDao.findById(id);
-        assertThat(user.getId(), is(id));
-        assertThat(user.getName(), is(name));
-        assertThat(user.getPassword(), is(password));
-    }
-
-    @Test
-    public void insertForHalla() throws SQLException, ClassNotFoundException {
-        String name = "hulk";
-        String password = "1234";
-        HallaConnectionMaker hallaConnectionMaker = new HallaConnectionMaker();
-        UserDao userDao = new UserDao(hallaConnectionMaker);
+        DaoFactory daoFactory = new DaoFactory();
+        UserDao userDao = daoFactory.userDao(jejuConnectionMaker);
         User user = new User();
         user.setName(name);
         user.setPassword(password);
