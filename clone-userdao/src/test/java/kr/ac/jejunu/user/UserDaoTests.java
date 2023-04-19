@@ -16,18 +16,16 @@ public class UserDaoTests {
     private static UserDao userDao;
 
     @BeforeEach
-
     public void setUp() {
         ApplicationContext ac = new AnnotationConfigApplicationContext(DaoFactory.class);
         userDao = ac.getBean("userDao", UserDao.class);
     }
 
     @Test
-    public void get() throws SQLException, ClassNotFoundException {
+    public void get() throws SQLException {
         Long id = 1l;
         String name = "hulk";
         String password = "1234";
-        JejuConnectionMaker jejuConnectionMaker = new JejuConnectionMaker();
         User user = userDao.findById(id);
         assertThat(user.getId(), is(id));
         assertThat(user.getName(), is(name));
@@ -38,7 +36,6 @@ public class UserDaoTests {
     public void insert() throws SQLException, ClassNotFoundException {
         String name = "hulk";
         String password = "1234";
-        JejuConnectionMaker jejuConnectionMaker = new JejuConnectionMaker();
         User user = new User();
         user.setName(name);
         user.setPassword(password);
