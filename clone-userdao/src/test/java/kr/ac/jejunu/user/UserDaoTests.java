@@ -15,8 +15,8 @@ public class UserDaoTests {
         Long id = 1l;
         String name = "hulk";
         String password = "1234";
-//        UserDao userDao = new UserDao();
-        UserDao userDao = new JejuUserDao();
+        JejuConnectionMaker jejuConnectionMaker = new JejuConnectionMaker();
+        UserDao userDao = new UserDao(jejuConnectionMaker);
         User user = userDao.findById(id);
         assertThat(user.getId(), is(id));
         assertThat(user.getName(), is(name));
@@ -27,8 +27,8 @@ public class UserDaoTests {
     public void insertForJeju() throws SQLException, ClassNotFoundException {
         String name = "hulk";
         String password = "1234";
-//        UserDao userDao = new UserDao();
-        UserDao userDao = new JejuUserDao();
+        JejuConnectionMaker jejuConnectionMaker = new JejuConnectionMaker();
+        UserDao userDao = new UserDao(jejuConnectionMaker);
         User user = new User();
         user.setName(name);
         user.setPassword(password);
@@ -49,8 +49,8 @@ public class UserDaoTests {
         Long id = 1l;
         String name = "hulk";
         String password = "1234";
-//        UserDao userDao = new UserDao();
-        UserDao userDao = new HallaUserDao();
+        HallaConnectionMaker hallaConnectionMaker = new HallaConnectionMaker();
+        UserDao userDao = new UserDao(hallaConnectionMaker);
         User user = userDao.findById(id);
         assertThat(user.getId(), is(id));
         assertThat(user.getName(), is(name));
@@ -61,8 +61,8 @@ public class UserDaoTests {
     public void insertForHalla() throws SQLException, ClassNotFoundException {
         String name = "hulk";
         String password = "1234";
-//        UserDao userDao = new UserDao();
-        UserDao userDao = new HallaUserDao();
+        HallaConnectionMaker hallaConnectionMaker = new HallaConnectionMaker();
+        UserDao userDao = new UserDao(hallaConnectionMaker);
         User user = new User();
         user.setName(name);
         user.setPassword(password);
