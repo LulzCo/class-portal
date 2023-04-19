@@ -46,7 +46,8 @@ class UserDaoTest {
         user.setPassword(password);
         userDao.insert(user);
 
-        assertThat(user.getId(), greaterThan(1l));
+        System.out.println(user.getId());
+        assertThat(user.getId(), greaterThan(83l));
 
         User insertedUser = userDao.findById(user.getId());
         assertThat(insertedUser.getId(), is(user.getId()));
