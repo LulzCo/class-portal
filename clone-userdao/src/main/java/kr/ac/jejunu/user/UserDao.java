@@ -6,128 +6,46 @@ import java.sql.*;
 public class UserDao {
 
     private final DataSource dataSource;
+    private final JdbcContext jdbcContext = new JdbcContext(this);
 
     public UserDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     public User findById(Long id) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        User user = null;
-        try {
-            connection = dataSource.getConnection();
-            StatementStrategy statementStrategy = new FindStatementStrategy();
-            preparedStatement = statementStrategy.makeStatement(connection);
-            preparedStatement.setLong(1, id);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setName(resultSet.getString("name"));
-                user.setPassword(resultSet.getString("password"));
-            }
-        } finally {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return user;
+        StatementStrategy statementStrategy = new FindStatementStrategy();
+        return jdbcContext.jdbcContextForFind(id, statementStrategy);
     }
 
     public void insert(User user) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = dataSource.getConnection();
-            StatementStrategy statementStrategy = new InsertStatementStrategy();
-            preparedStatement = statementStrategy.makeStatement(connection);
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.executeUpdate();
-            resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                user.setId(resultSet.getLong(1));
-            }
-        } finally {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        StatementStrategy statementStrategy = new InsertStatementStrategy();
+        jdbcContext.jdbcContextForInsert(user, statementStrategy);
     }
 
-    public void update(User updateUser) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = dataSource.getConnection();
-            StatementStrategy statementStrategy = new UpdateStatementStrategy();
-            preparedStatement = statementStrategy.makeStatement(connection);
-            preparedStatement.setString(1, updateUser.getName());
-            preparedStatement.setString(2, updateUser.getPassword());
-            preparedStatement.setLong(3, updateUser.getId());
-            preparedStatement.executeUpdate();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public void update(User user) throws SQLException {
+        StatementStrategy statementStrategy = new UpdateStatementStrategy();
+        jdbcContext.jdbcContextForUpdate(user, statementStrategy);
 
     }
 
     public void delete(Long id) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = dataSource.getConnection();
-            StatementStrategy statementStrategy = new DeleteStatementStrategy();
-            preparedStatement = statementStrategy.makeStatement(connection);
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        StatementStrategy statementStrategy = new DeleteStatementStrategy();
+        jdbcContext.jdbcContextForDelete(id, statementStrategy);
+    }
+
+    private void jdbcContextForInsert(User user, StatementStrategy statementStrategy) throws SQLException {
+        jdbcContext.jdbcContextForInsert(user, statementStrategy);
+    }
+
+    private void jdbcContextForUpdate(User updateUser, StatementStrategy statementStrategy) throws SQLException {
+        jdbcContext.jdbcContextForUpdate(updateUser, statementStrategy);
+    }
+
+    private void jdbcContextForDelete(Long id, StatementStrategy statementStrategy) throws SQLException {
+        jdbcContext.jdbcContextForDelete(id, statementStrategy);
+    }
+
+    private User jdbcContextForFind(Long id, StatementStrategy statementStrategy) throws SQLException {
+        return jdbcContext.jdbcContextForFind(id, statementStrategy);
     }
 }
