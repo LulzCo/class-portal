@@ -12,14 +12,15 @@ public class UserDao {
 
 
     public User findById(Long id) throws SQLException {
-        Connection connection = null;
+        StatementStrategy statementStrategy = new FindStatementStrategy();
+        Object[] param = {id};
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         ResultSet resultSet = null;
         User user = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("select id, name, password from userinfo where id = ?");
-            preparedStatement.setLong(1, id);
+            preparedStatement = statementStrategy.makeStatement(connection, param);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 user = new User();
@@ -48,14 +49,14 @@ public class UserDao {
     }
 
     public void insert(User user) throws SQLException {
-        Connection connection = null;
+        StatementStrategy statementStrategy = new InsertStatementStrategy();
+        Object[] param = {user.getName(), user.getPassword()};
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("insert into userinfo(name, password) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getPassword());
+            preparedStatement = statementStrategy.makeStatement(connection, param);
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
@@ -65,11 +66,13 @@ public class UserDao {
                 resultSet.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            } try {
+            }
+            try {
                 preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            } try {
+            }
+            try {
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -78,14 +81,36 @@ public class UserDao {
     }
 
     public void update(User user) throws SQLException {
+        StatementStrategy statementStrategy = new UpdateStatementStrategy();
+        Object[] param = {user.getName(), user.getPassword(), user.getId()};
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("update userinfo set name = ?, password = ? where id = ?");
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setLong(3, user.getId());
+            preparedStatement = statementStrategy.makeStatement(connection, param);
+            preparedStatement.executeUpdate();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void delete(Long id) throws SQLException {
+        StatementStrategy statementStrategy = new DeleteStatementStrategy();
+        Object[] param = {id};
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = dataSource.getConnection();
+            preparedStatement = statementStrategy.makeStatement(connection, param);
             preparedStatement.executeUpdate();
         } finally {
             try {
@@ -100,24 +125,4 @@ public class UserDao {
         }
     }
 
-    public void delete(Long id) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("delete from userinfo where id = ?");
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
