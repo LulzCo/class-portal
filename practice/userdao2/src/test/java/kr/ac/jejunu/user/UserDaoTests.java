@@ -26,8 +26,6 @@ public class UserDaoTests {
         Long id = 1l;
         String name = "hulk";
         String password = "1234";
-        DaoFactory daoFactory = new DaoFactory();
-        UserDao userDao = daoFactory.userDao();
         User user = userDao.findById(id);
         assertThat(user.getId(), is(id));
         assertThat(user.getName(), is(name));
@@ -42,8 +40,6 @@ public class UserDaoTests {
         user.setName(name);
         user.setPassword(password);
 
-        DaoFactory daoFactory = new DaoFactory();
-        UserDao userDao = daoFactory.userDao();
         userDao.insert(user);
 
         assertThat(user.getId(), greaterThan(1L));
