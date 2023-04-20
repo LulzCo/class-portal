@@ -7,7 +7,7 @@ public class UserDao {
 
     private final DataSource dataSource;
 
-    protected UserDao(DataSource dataSource) {
+    public UserDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -18,7 +18,8 @@ public class UserDao {
         User user = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("select id, name, password from userinfo where id = ?");
+            StatementStrategy statementStrategy = new FindStatementStrategy();
+            preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -53,9 +54,8 @@ public class UserDao {
         ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(
-                    "insert into userinfo(name, password) values(? , ?)",
-                    Statement.RETURN_GENERATED_KEYS);
+            StatementStrategy statementStrategy = new InsertStatementStrategy();
+            preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.executeUpdate();
@@ -85,11 +85,10 @@ public class UserDao {
     public void update(User updateUser) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(
-                    "update userinfo set name = ?, password = ? where id = ?");
+            StatementStrategy statementStrategy = new UpdateStatementStrategy();
+            preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.setString(1, updateUser.getName());
             preparedStatement.setString(2, updateUser.getPassword());
             preparedStatement.setLong(3, updateUser.getId());
@@ -112,11 +111,10 @@ public class UserDao {
     public void delete(Long id) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(
-                    "delete from userinfo where id = ?");
+            StatementStrategy statementStrategy = new DeleteStatementStrategy();
+            preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } finally {
