@@ -1,6 +1,9 @@
 package kr.ac.jejunu.user;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.SQLException;
 
@@ -9,6 +12,14 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
 
 public class UserDaoTests {
+
+    private UserDao userDao;
+
+    @BeforeEach
+    public void setUp() {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(DaoFactory.class);
+        userDao = ac.getBean("userDao", UserDao.class);
+    }
 
     @Test
     public void get() throws SQLException, ClassNotFoundException {
