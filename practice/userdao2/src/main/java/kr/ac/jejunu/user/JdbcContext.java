@@ -14,14 +14,13 @@ public class JdbcContext {
     }
 
     User jdbcContextForFind(Long id, StatementStrategy statementStrategy) throws SQLException {
-        Object[] param = {id};
         PreparedStatement preparedStatement = null;
         Connection connection = null;
         ResultSet resultSet = null;
         User user = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = statementStrategy.makeStatement(connection, param);
+            preparedStatement = statementStrategy.makeStatement(connection);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 user = new User();

@@ -10,8 +10,8 @@ public class UserDao {
     }
 
     public User findById(Long id) throws SQLException {
-        StatementStrategy statementStrategy = new FindStatementStrategy();
-        return jdbcContext.jdbcContextForFind(id, statementStrategy);
+        StatementStrategy statementStrategy = new FindStatementStrategy(id);
+        return jdbcContext.jdbcContextForFind(statementStrategy);
     }
 
     private User jdbcContextForFind(Long id, StatementStrategy statementStrategy) throws SQLException {
