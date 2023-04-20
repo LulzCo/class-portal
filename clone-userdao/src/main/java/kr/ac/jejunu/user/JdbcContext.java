@@ -1,15 +1,16 @@
 package kr.ac.jejunu.user;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JdbcContext {
-    private final UserDao userDao;
+    private final DataSource dataSource;
 
-    public JdbcContext(UserDao userDao) {
-        this.userDao = userDao;
+    public JdbcContext(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     void jdbcContextForInsert(User user, StatementStrategy statementStrategy) throws SQLException {
@@ -17,7 +18,7 @@ public class JdbcContext {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            connection = userDao.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getPassword());
@@ -49,7 +50,7 @@ public class JdbcContext {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
-            connection = userDao.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.setString(1, updateUser.getName());
             preparedStatement.setString(2, updateUser.getPassword());
@@ -73,7 +74,7 @@ public class JdbcContext {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
-            connection = userDao.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -97,7 +98,7 @@ public class JdbcContext {
         ResultSet resultSet = null;
         User user = null;
         try {
-            connection = userDao.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
