@@ -13,7 +13,8 @@ public class UserDao {
 
 
     public User findById(Long id) throws SQLException {
-        StatementStrategy statementStrategy = new FindStatementStrategy(id);
+//        StatementStrategy statementStrategy = new FindStatementStrategy(id);
+        StatementStrategy statementStrategy = c
         return jdbcContext.jdbcContextForFind(statementStrategy);
     }
 

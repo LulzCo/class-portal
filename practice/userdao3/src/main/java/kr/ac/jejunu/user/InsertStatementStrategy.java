@@ -14,10 +14,6 @@ public class InsertStatementStrategy implements StatementStrategy {
 
     @Override
     public PreparedStatement makeStatement(Connection connection) throws SQLException {
-        PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("insert into userinfo(name, password) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setString(1, user.getName());
-        preparedStatement.setString(2, user.getPassword());
-        return preparedStatement;
+
     }
 }

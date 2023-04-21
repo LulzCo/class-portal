@@ -14,8 +14,12 @@ public class DeleteStatementStrategy implements StatementStrategy {
     @Override
     public PreparedStatement makeStatement(Connection connection) throws SQLException {
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("delete from userinfo where id = ?");
-        preparedStatement.setLong(1, id);
+        Object[] param = {id};
+        String sql = "delete from userinfo where id = ?";
+        preparedStatement = connection.prepareStatement(sql);
+        for (int i = 0; i < param.length; i++) {
+            preparedStatement.setObject(i + 1, param[i]);
+        }
         return preparedStatement;
     }
 }

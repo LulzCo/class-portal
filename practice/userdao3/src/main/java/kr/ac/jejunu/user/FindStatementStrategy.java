@@ -13,9 +13,13 @@ public class FindStatementStrategy implements StatementStrategy {
 
     @Override
     public PreparedStatement makeStatement(Connection connection) throws SQLException {
+        Object[] param = {id};
+        String sql = "select id, name, password from userinfo where id = ?";
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("select id, name, password from userinfo where id = ?");
-        preparedStatement.setLong(1, id);
+        preparedStatement = connection.prepareStatement(sql);
+        for (int i = 0; i < param.length; i++) {
+            preparedStatement.setObject(i + 1, param[i]);
+        }
         return preparedStatement;
     }
 }

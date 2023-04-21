@@ -13,11 +13,13 @@ public class UpdateStatementStrategy implements StatementStrategy {
 
     @Override
     public PreparedStatement makeStatement(Connection connection) throws SQLException {
+        Object[] param = {user.getName(), user.getPassword(), user.getId()};
+        String sql = "update userinfo set name = ?, password = ? where id = ?";
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("update userinfo set name = ?, password = ? where id = ?");
-        preparedStatement.setString(1, user.getName());
-        preparedStatement.setString(2, user.getPassword());
-        preparedStatement.setLong(3, user.getId());
+        preparedStatement = connection.prepareStatement(sql);
+        for (int i = 0; i < param.length; i++) {
+            preparedStatement.setObject(i + 1, param[i]);
+        }
         return preparedStatement;
     }
 }
