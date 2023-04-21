@@ -14,6 +14,6 @@ public class InsertStatementStrategy implements StatementStrategy {
 
     @Override
     public PreparedStatement makeStatement(Connection connection) throws SQLException {
-
+        return null;
     }
 }

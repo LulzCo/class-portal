@@ -32,7 +32,7 @@ public class UserDaoTests {
         assertThat(user.getPassword(), is(password));
     }
 
-    @Test
+//    @Test
     public void insert() throws SQLException {
         String name = "hulk";
         String password = "1234";

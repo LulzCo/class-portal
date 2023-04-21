@@ -1,6 +1,5 @@
 package kr.ac.jejunu.user;
 
-import javax.sql.DataSource;
 import java.sql.*;
 
 public class UserDao {
@@ -13,8 +12,7 @@ public class UserDao {
 
 
     public User findById(Long id) throws SQLException {
-//        StatementStrategy statementStrategy = new FindStatementStrategy(id);
-        StatementStrategy statementStrategy = c
+        StatementStrategy statementStrategy = jdbcContext.find(id);
         return jdbcContext.jdbcContextForFind(statementStrategy);
     }
 

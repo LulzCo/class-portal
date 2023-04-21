@@ -13,6 +13,19 @@ public class JdbcContext {
         this.dataSource = dataSource;
     }
 
+    static StatementStrategy find(Long id) {
+        return connection -> {
+            Object[] param = {id};
+            String sql = "select id, name, password from userinfo where id = ?";
+            PreparedStatement preparedStatement = null;
+            preparedStatement = connection.prepareStatement(sql);
+            for (int i = 0; i < param.length; i++) {
+                preparedStatement.setObject(i + 1, param[i]);
+            }
+            return preparedStatement;
+        };
+    }
+
     User jdbcContextForFind(StatementStrategy statementStrategy) throws SQLException {
         PreparedStatement preparedStatement = null;
         Connection connection = null;
