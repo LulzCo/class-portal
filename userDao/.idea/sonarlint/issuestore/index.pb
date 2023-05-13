@@ -3,8 +3,6 @@
 gradlew,5/b/5bbfa66edb4db3c7c33c5181f43510990d3307f9
 ;
 gradlew.bat,2/a/2a45a911a8f1836b0b6c5b758962572012d8f8c3
-<
-build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
 ?
 settings.gradle,0/5/05efc8b1657769a27696d478ded1e95f38737233
 _
@@ -19,3 +17,5 @@ f
 6src/main/java/kr/ac/jejunu/user/StatementStrategy.java,1/1/1146fefc2d269492033f6dd1957aeb6fc92042f4
 `
 0src/test/java/kr/ac/jejunu/user/UserDaoTest.java,b/a/ba4eafb5696e8d16f1584a4d4c82ca9e6ca833be
+O
+src/main/webapp/WEB_INF/web.xml,c/f/cff0ceec615ad630602d17ef1a8eeddf3fb8a019
