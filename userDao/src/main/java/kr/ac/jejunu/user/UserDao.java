@@ -10,7 +10,8 @@ public class UserDao {
         this.jdbcContext = jdbcContext;
     }
 
-    public User findById(Long id) throws SQLException {
+//    public User findById(Long id) throws SQLException {
+    public User findById(Long id) {
         String sql = "select id, name, password from userinfo where id = ?";
         Object[] params = new Object[]{id};
         return jdbcContext.find(sql, params);
