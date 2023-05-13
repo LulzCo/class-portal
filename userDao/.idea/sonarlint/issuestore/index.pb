@@ -17,5 +17,3 @@ f
 6src/main/java/kr/ac/jejunu/user/StatementStrategy.java,1/1/1146fefc2d269492033f6dd1957aeb6fc92042f4
 `
 0src/test/java/kr/ac/jejunu/user/UserDaoTest.java,b/a/ba4eafb5696e8d16f1584a4d4c82ca9e6ca833be
-O
-src/main/webapp/WEB_INF/web.xml,c/f/cff0ceec615ad630602d17ef1a8eeddf3fb8a019
